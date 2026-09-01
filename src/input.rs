@@ -1,6 +1,3 @@
-
-// input.rs
-
 use text_io::try_read;
 
 pub fn get_num(msg: &str) -> f64 {

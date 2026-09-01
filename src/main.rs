@@ -1,6 +1,3 @@
-
-// main.rs
-
 mod calculation;
 mod input;
 

@@ -1,7 +1,8 @@
 # Calculator
 
 Calculator is an educational project.
-It will support basic functionality to focus on the features of the Rust programming language. Starting from a single file, we will update it by replacing basic data types with more convenient data structures, grouping functionality into separate files, and so on...
+It will support basic functionality to focus on the features of the Rust programming language. Starting from a single file, the project has been updated replacing basic data types with more convenient data structures, grouping functionality into separate files, etc...
+Step by step the project will be upgrated with more rust features.
 
 # Run the program
 

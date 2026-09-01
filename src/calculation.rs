@@ -1,6 +1,3 @@
-
-// calculation.rs
-
 use std::fmt::{self, Formatter};
 
 #[derive(Debug, Clone, Copy, PartialEq)]
