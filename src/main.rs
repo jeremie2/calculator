@@ -10,36 +10,33 @@ fn main() {
     let mut history = History::new();
     
     loop {
-        println!("Select operation (+ - * /), history (h) or exit (q):");
-        
-        let command = match input::get_command() {
-            Ok(cmd) => cmd,
-            Err(_) => {
-                println!("❌ Error: invalid command or operator. Try again.\n");
-                continue;
-            }
-        };
-
-        match command {
-            Command::Exit => {
+        let raw_input = input::get_input(
+            "Enter a calculation (e.g., 2+4), 'h' for history, or 'q' to exit:"
+        );
+        match Command::try_from(raw_input.as_str()) {
+            Ok(Command::Exit) => {
                 println!("👋 Goodbye!");
                 break;
             }
-            Command::ShowHistory => history.display(),
-            Command::Operation(op) => {
-                let n1 = input::get_num("Insert the first number: ");
-                let n2 = input::handle_zero_div("Insert the second number: ", op);
-                
-                let calc = Calculation::new(n1, op, n2);
-                let res = calc.execute();
+            Ok(Command::ShowHistory) => {
+                history.display();
+                continue;
+            }
+            _ => {}
+        }
 
+        match raw_input.parse::<Calculation>() {
+            Ok(calc) => {
+                let res = calc.execute();
                 println!("\n👉 {calc} = {res}\n");
                 println!("---------------------------------------");
-
                 history.add(calc, res);
+            }
+            Err(err_msg) => {
+                // Se la stringa è malformata o c'è una divisione per zero, lo stampiamo
+                println!("❌ Error: {err_msg}. Try again.");
+                println!("---------------------------------------");
             }
         }
     }
 }
-
-

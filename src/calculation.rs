@@ -1,4 +1,5 @@
 use std::fmt::{self, Formatter};
+use std::str::FromStr;
 
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum Operator {
@@ -9,23 +10,33 @@ pub enum Operator {
 }
 
 pub enum Command {
-    Operation(Operator),
     ShowHistory,
     Exit,
 }
 
+impl TryFrom<char> for Operator {
+    type Error = &'static str;
+    
+    // fn try_from(op: char) -> Result<Self, &'static str>
+    fn try_from(op: char) -> Result<Self, Self::Error> {
+        match op {
+            '+' => Ok(Operator::Add),
+            '-' => Ok(Operator::Subtract),
+            '*' => Ok(Operator::Multiply),
+            '/' => Ok(Operator::Divide),
+            _   => Err("Unknown operator"),
+        }
+    }
+}
+
 impl TryFrom<&str> for Command {
     type Error = &'static str;
-
+    
     fn try_from(s: &str) -> Result<Self, Self::Error> {
         match s {
             "q" => Ok(Command::Exit),
             "h" => Ok(Command::ShowHistory),
-            "+" => Ok(Command::Operation(Operator::Add)),
-            "-" => Ok(Command::Operation(Operator::Subtract)),
-            "*" => Ok(Command::Operation(Operator::Multiply)),
-            "/" => Ok(Command::Operation(Operator::Divide)),
-            _ => Err("❌ Unknown command")
+            _   => Err("Not a system command"), // Rimosse le operazioni da qui
         }
     }
 }
@@ -61,6 +72,39 @@ impl Calculation {
             Operator::Multiply => self.num1 * self.num2,
             Operator::Divide => self.num1 / self.num2,            
         }
+    }
+}
+
+impl FromStr for Calculation {
+    type Err = &'static str;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        // A string with no whitespace.
+        let cleaned: String = s.chars().filter(|c| !c.is_whitespace()).collect();
+        
+        // Which operator (+ - * /) inside the string
+        let (split_index, op_char) = cleaned
+            .chars()
+            .enumerate()
+            .find(|&(_, c)| c == '+' || c == '-' || c == '*' || c == '/')
+            .ok_or("No valid operator found")?;
+        
+        // Dividing the string into:
+        // - left part before the operator (num1)
+        // - right part after the operator (num2)
+        let num1 = &cleaned[..split_index];
+        let num2 = &cleaned[split_index + 1..];
+
+        // Convertions.
+        let num1 = num1.parse::<f64>().map_err(|_| "Invalid first number")?;
+        let num2 = num2.parse::<f64>().map_err(|_| "Invalid second number")?;
+        let operator = Operator::try_from(op_char).map_err(|_| "Unknown operator")?;
+
+        if operator == Operator::Divide && num2 == 0.0 {
+            return Err("Division by zero is not allowed");
+        }
+
+        Ok(Calculation::new(num1, operator, num2))       
     }
 }
 
