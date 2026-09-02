@@ -36,7 +36,7 @@ impl TryFrom<&str> for Command {
         match s {
             "q" => Ok(Command::Exit),
             "h" => Ok(Command::ShowHistory),
-            _   => Err("Not a system command"), // Rimosse le operazioni da qui
+            _   => Err("Not a system command"),
         }
     }
 }

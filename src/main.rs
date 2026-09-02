@@ -33,7 +33,6 @@ fn main() {
                 history.add(calc, res);
             }
             Err(err_msg) => {
-                // Se la stringa è malformata o c'è una divisione per zero, lo stampiamo
                 println!("❌ Error: {err_msg}. Try again.");
                 println!("---------------------------------------");
             }
