@@ -8,6 +8,28 @@ pub enum Operator {
     Divide,
 }
 
+pub enum Command {
+    Operation(Operator),
+    ShowHistory,
+    Exit,
+}
+
+impl TryFrom<&str> for Command {
+    type Error = &'static str;
+
+    fn try_from(s: &str) -> Result<Self, Self::Error> {
+        match s {
+            "q" => Ok(Command::Exit),
+            "h" => Ok(Command::ShowHistory),
+            "+" => Ok(Command::Operation(Operator::Add)),
+            "-" => Ok(Command::Operation(Operator::Subtract)),
+            "*" => Ok(Command::Operation(Operator::Multiply)),
+            "/" => Ok(Command::Operation(Operator::Divide)),
+            _ => Err("❌ Unknown command")
+        }
+    }
+}
+
 impl fmt::Display for Operator {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         let symbol = match self {
@@ -20,23 +42,6 @@ impl fmt::Display for Operator {
     }
 }
 
-// Conversion char -> Operator. This helps the execute()
-// to just show the four operations shown in the Operator
-// enum, without handling the case of a wrong character. 
-impl TryFrom<char> for Operator {
-    type Error = &'static str;
-
-    fn try_from(op: char) -> Result<Self, Self::Error> {
-        match op {
-            '+' => Ok(Operator::Add),
-            '-' => Ok(Operator::Subtract),
-            '*' => Ok(Operator::Multiply),
-            '/' => Ok(Operator::Divide),
-            _ => Err("Unknown operator"),
-        }
-    }
-}
-
 #[derive(Clone, Copy)]
 pub struct Calculation {
     pub num1: f64,
@@ -46,17 +51,15 @@ pub struct Calculation {
 
 impl Calculation {
     pub fn new(num1: f64, operator: Operator, num2: f64) -> Self {
-        Self { num1, operator, num2 }
+        Self {num1, operator, num2}
     }
-    
-    // Zero division returns std::f64::INFINITY or std::f64::NEG_INFINITY)
-    // That condition is prevented into the loop inside main.rs.
+
     pub fn execute(&self) -> f64 {
         match self.operator {
             Operator::Add => self.num1 + self.num2,
             Operator::Subtract => self.num1 - self.num2,
             Operator::Multiply => self.num1 * self.num2,
-            Operator::Divide => self.num1 / self.num2,
+            Operator::Divide => self.num1 / self.num2,            
         }
     }
 }
@@ -66,6 +69,8 @@ impl fmt::Display for Calculation {
         write!(f, "{} {} {}", self.num1, self.operator, self.num2)
     }
 }
+
+
 
 // --------------------------------------------
 //             UNIT TEST SECTION
