@@ -11,7 +11,7 @@ fn main() {
     
     loop {
         let raw_input = input::get_input(
-            "Enter a calculation (e.g., 2+4), 'h' for history, or 'q' to exit:"
+            "Enter a calculation or: 'h' for history, 'q' to exit:"
         );
         match Command::try_from(raw_input.as_str()) {
             Ok(Command::Exit) => {

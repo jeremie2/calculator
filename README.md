@@ -1,8 +1,8 @@
 # Calculator
 
-Calculator is an educational project.
-It will support basic functionality to focus on the features of the Rust programming language. Starting from a single file, the project has been updated replacing basic data types with more convenient data structures, grouping functionality into separate files, etc...
-Step by step the project will be upgrated with more rust features.
+Calculator is an educational project.<br>
+It will support basic functionalities to focus on the features of the Rust programming language. Starting from a single file, the project has been updated replacing basic data types with more convenient data structures, grouping functionalities into separate files, etc...<br>
+Step by step the project will be upgraded with more rust features.
 
 # Run the program
 
@@ -16,7 +16,7 @@ Step by step the project will be upgrated with more rust features.
 
   ```
   :::: CALCULATOR ::::
-  Select the operation (+ - * /) or a command (h = history, q = exit):
+  "Enter a calculation or: 'h' for history, 'q' to exit:"
   ```
 
 
@@ -25,19 +25,23 @@ Step by step the project will be upgrated with more rust features.
 - **Wrong operation** (+ - * /):
 
   ```
-  ❌ Error: invalid command or operator. Try again.
+  ❌ Error: No valid operator found. Try again.
   ```
 
-- Handling **wrong number** input:
+- Handling **wrong numbers** input:
 
   ```
-  ❌ Error: insert a valid number.
+  ❌ Error: Invalid first number. Try again.
+  ```
+
+  ```
+  ❌ Error: Invalid second number. Try again.
   ```
 
 - Handling **zero divide**:
 
   ```
-  ❌ Error: can't divide by zero. Try again.
+  ❌ Error: Division by zero is not allowed. Try again.
   ```
 
 # Show results
