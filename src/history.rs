@@ -1,7 +1,7 @@
 use crate::calculation::Calculation;
 
 pub struct History {
-    records: Vec<Calculation, f64>
+    records: Vec<(Calculation, f64)>
 }
 
 impl History {
@@ -24,19 +24,4 @@ impl History {
         }
         println!("---------------------------------------\n");
     }
-    
-    pub fn is_empty(&self) -> bool {
-        self.records.is_empty()
-    }
 }
-
-
-
-
-
-
-
-
-
-
-

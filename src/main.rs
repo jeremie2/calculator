@@ -7,8 +7,8 @@ use history::History;
 
 fn main() {
     println!("\n:::: CALCULATOR ::::");
-    let mut history = History::new();   
-
+    let mut history = History::new();
+    
     loop {
         println!("Select operation (+ - * /), history (h) or exit (q):");
         
@@ -25,9 +25,7 @@ fn main() {
                 println!("👋 Goodbye!");
                 break;
             }
-            Command::ShowHistory => {
-                history.display(;)
-            }
+            Command::ShowHistory => history.display(),
             Command::Operation(op) => {
                 let n1 = input::get_num("Insert the first number: ");
                 let n2 = input::handle_zero_div("Insert the second number: ", op);
@@ -38,7 +36,7 @@ fn main() {
                 println!("\n👉 {calc} = {res}\n");
                 println!("---------------------------------------");
 
-                history.push((calc, res));
+                history.add(calc, res);
             }
         }
     }
