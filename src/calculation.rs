@@ -95,7 +95,7 @@ impl FromStr for Calculation {
         let num1 = &cleaned[..split_index];
         let num2 = &cleaned[split_index + 1..];
 
-        // Convertions.
+        // Convertions from string to number.
         let num1 = num1.parse::<f64>().map_err(|_| "Invalid first number")?;
         let num2 = num2.parse::<f64>().map_err(|_| "Invalid second number")?;
         let operator = Operator::try_from(op_char).map_err(|_| "Unknown operator")?;
@@ -115,10 +115,10 @@ impl fmt::Display for Calculation {
 }
 
 
-
 // --------------------------------------------
 //             UNIT TEST SECTION
 // --------------------------------------------
+
 #[cfg(test)]
 mod tests {
     use super::*;
